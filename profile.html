@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Data</title>
+    <style>
+        * {
+    box-sizing: border-box;
+    }
+    
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background-color: #f4f4f4;
+    }
+    
+    .container {
+        display: flex;
+    }
+    
+    .sidebar {
+        width: 200px;
+        background: #333;
+        color: #fff;
+        padding: 20px;
+    }
+    
+    .sidebar h2 {
+        color: #fff;
+    }
+    
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .sidebar li {
+        padding: 10px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    
+    .sidebar li:hover {
+        background: #575757;
+    }
+    
+    .main-content {
+        padding: 20px;
+        flex: 1;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Dashboard</h2>
+            <ul>
+                <li onclick="navigateTo('dashboard.html')">Charts</li>
+                <li onclick="navigateTo('profile.html')">Profile Data</li>
+                <li onclick="navigateTo('Soil_moisture.html')">Soil Moisture</li>
+                <!-- <li onclick="navigateTo('fertilizer.html')">Fertilizer Recommendation</li> -->
+            </ul>
+        </nav>
+        <main class="main-content">
+            <h2>Profile Data</h2>
+            <p>Name: Sandeep</p>
+            <p>Email: sandeep@gmail.com</p>
+            <p>Address: 73, Lakshmi Garden</p>
+        </main>
+    </div>
+
+    <script>
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>
