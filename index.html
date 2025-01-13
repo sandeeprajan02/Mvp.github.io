@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: #343a40;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 24px;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+        }
+
+        .navbar li {
+            margin-left: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .navbar li:hover {
+            color: #adb5bd;
+        }
+
+        .main-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .intro {
+            margin-bottom: 30px;
+            max-width: 800px;
+            font-size: 1.1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .chart-container {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .buttons-container {
+            margin-top: 30px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .buttons-container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #343a40;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .buttons-container button:hover {
+            background: #495057;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <h1>AgroDashboard</h1>
+            <ul>
+                <li onclick="navigateTo('index.html')">Home</li>
+                <li onclick="navigateTo('profile.html')">Profile</li>
+                <li onclick="navigateTo('weather.html')">Weather</li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="intro">
+                <h2>Welcome to Agventure</h2>
+                <p>
+                    Agriculture is the backbone of human civilization, involving the cultivation of soil, growing crops, and rearing animals 
+                    for food and other products. With advancements in technology, farming has become smarter, allowing farmers to optimize 
+                    resources like water, fertilizer, and land while ensuring sustainable practices.
+                </p>
+            </div>
+
+            <div class="grid">
+                <div class="chart-container">
+                    <h3>NPK Sensor</h3>
+                    <canvas id="npkChart" width="300" height="300"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>pH Level</h3>
+                    <canvas id="phChart" width="300" height="300"></canvas>
+                </div>
+            </div>
+
+            <!-- Buttons for additional functionality -->
+            <div class="buttons-container">
+                <button onclick="navigateTo('Soil_moisture.html')">Soil Moisture</button>
+                <!-- <button onclick="navigateTo('sprinkler.html')">Sprinkler Data</button>
+                <button onclick="navigateTo('settings.html')">Settings</button> -->
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Function to handle navigation
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+
+        // Chart Data
+        const npkData = {
+            labels: ['Nitrogen', 'Phosphorus', 'Potassium'],
+            datasets: [{
+                label: 'NPK Percentage',
+                data: [30, 45, 25],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+            }]
+        };
+
+        const phData = {
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4'],
+            datasets: [{
+                label: 'pH Level',
+                data: [6.5, 7, 5.5, 6],
+                backgroundColor: '#36A2EB',
+                borderColor: '#007BFF',
+                borderWidth: 1,
+            }]
+        };
+
+        // Render Charts
+        new Chart(document.getElementById('npkChart'), { type: 'pie', data: npkData });
+        new Chart(document.getElementById('phChart'), { type: 'bar', data: phData });
+    </script>
+</body>
+</html>
