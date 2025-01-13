@@ -7,87 +7,196 @@
     <style>
         * {
             box-sizing: border-box;
-        }
-        
-        body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            background-color: #f4f4f4;
-        }
-        
-        .container {
-            display: flex;
-        }
-        
-        .sidebar {
-            width: 200px;
-            background: #333;
-            color: #fff;
-            padding: 20px;
-        }
-        
-        .sidebar h2 {
-            color: #fff;
-        }
-        
-        .sidebar ul {
-            list-style: none;
             padding: 0;
         }
-        
-        .sidebar li {
-            padding: 10px;
-            cursor: pointer;
-            transition: background 0.3s;
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            line-height: 1.6;
         }
-        
-        .sidebar li:hover {
-            background: #575757;
-        }
-        
+
+        /* Main Content Styles */
         .main-content {
-            padding: 20px;
             flex: 1;
+            padding: 50px 50px;
         }
-        
-        .chart-section {
-            display: flex;
-            flex-wrap: wrap; /* Allows charts to wrap into new rows */
-            gap: 20px; /* Adds spacing between charts */
-            justify-content: center; /* Center aligns the charts */
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
-        
+
         .chart-container {
-            flex: 1 1 calc(50% - 40px); /* Each chart takes 50% width minus spacing */
-            max-width: 400px; /* Ensures the charts don't stretch too much */
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                padding: 10px;
+            }
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: #343a40;
+            color: #fff;
+            padding: 10px 20px;
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 24px;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+        }
+
+        .navbar li {
+            margin-left: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .navbar li:hover {
+            color: #adb5bd;
+        }
+
+        /* Container Styles */
+        .container {
+            min-height: 90vh;
+            gap: 2rem;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            height: 50vh;
             justify-content: center;
             align-items: center;
         }
-        
+
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-container input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #343a40;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .form-container button:hover {
+            background: #495057;
+        }
+
+        .form-container p {
+            margin-top: 15px;
+        }
+
+        .form-container a {
+            color: #495057;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-container a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <nav class="sidebar">
-            <h2>Dashboard</h2>
+        <!-- Sidebar -->
+        <nav class="navbar">
+            <h1>Website</h1>
             <ul>
-                <li onclick="navigateTo('index.html')">Charts</li>
-                <li onclick="navigateTo('profile.html')">Profile Data</li>
-                <li onclick="navigateTo('Soil_moisture.html')">Soil Moisture</li>
-                
+                <li onclick="navigateTo('index.html')">Home</li>
+                <li onclick="navigateTo('profile.html')">Profile</li>
+                <li onclick="navigateTo('signin.html')">Signup</li>
             </ul>
         </nav>
+
+        <!-- Main Content -->
         <main class="main-content">
-            <div id="charts" class="chart-section">
+            <div class="grid">
                 <div class="chart-container">
+                    <h3>NPK Sensor</h3>
                     <canvas id="npkChart" width="300" height="300"></canvas>
                 </div>
-                <!-- <div class="chart-container">
-                    <canvas id="moistureChart" width="300" height="300"></canvas>
-                </div> -->
                 <div class="chart-container">
+                    <h3>pH Level</h3>
                     <canvas id="phChart" width="300" height="300"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Soil Moisture</h3>
+                    <canvas id="soilMoistureChart" width="300" height="300"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Sprinkler Chart</h3>
+                    <canvas id="sprinklerChart" width="300" height="300"></canvas>
+                </div>
+                <div class="chart-container" style="grid-column: span 2;">
+                    <h3>Daily Weather Update</h3>
+                    <canvas id="weatherChart" width="600" height="300"></canvas>
                 </div>
             </div>
         </main>
@@ -95,10 +204,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Function to handle navigation
         function navigateTo(page) {
             window.location.href = page;
         }
-        
+
         // Chart Data
         const npkData = {
             labels: ['Nitrogen', 'Phosphorus', 'Potassium'],
@@ -108,34 +218,54 @@
                 backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
             }]
         };
-        
+
         const phData = {
             labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4'],
             datasets: [{
                 label: 'pH Level',
                 data: [6.5, 7, 5.5, 6],
-                backgroundColor: '#FFCE56'
+                backgroundColor: '#36A2EB',
+                borderColor: '#007BFF',
+                borderWidth: 1,
             }]
         };
-        
-        // Create Charts on index.html
-        if (document.getElementById('npkChart')) {
-            const npkCtx = document.getElementById('npkChart').getContext('2d');
-            const phCtx = document.getElementById('phChart').getContext('2d');
-        
-            new Chart(npkCtx, {
-                type: 'pie',
-                data: npkData,
-            });
-        
-            new Chart(phCtx, {
-                type: 'bar',
-                data: phData,
-            });
-        
-        }
-        
+
+        const soilMoistureData = {
+            labels: ['Zone 1', 'Zone 2', 'Zone 3'],
+            datasets: [{
+                label: 'Soil Moisture (%)',
+                data: [40, 60, 50],
+                backgroundColor: ['#4BC0C0', '#FF9F40', '#9966FF']
+            }]
+        };
+
+        const sprinklerData = {
+            labels: ['Zone 1', 'Zone 2', 'Zone 3'],
+            datasets: [{
+                label: 'Sprinkler Usage (L)',
+                data: [100, 150, 120],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+            }]
+        };
+
+        const weatherData = {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+            datasets: [{
+                label: 'Temperature (°C)',
+                data: [28, 30, 27, 26, 29],
+                backgroundColor: '#FFA726',
+                borderColor: '#FB8C00',
+                borderWidth: 2,
+                fill: false
+            }]
+        };
+
+        // Render Charts
+        new Chart(document.getElementById('npkChart'), { type: 'pie', data: npkData });
+        new Chart(document.getElementById('phChart'), { type: 'bar', data: phData });
+        new Chart(document.getElementById('soilMoistureChart'), { type: 'bar', data: soilMoistureData });
+        new Chart(document.getElementById('sprinklerChart'), { type: 'doughnut', data: sprinklerData });
+        new Chart(document.getElementById('weatherChart'), { type: 'line', data: weatherData });
     </script>
 </body>
-
 </html>
