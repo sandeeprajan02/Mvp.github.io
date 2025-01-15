@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: #343a40;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            gap: 15px;
+        }
+
+        .navbar li {
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .navbar li:hover {
+            color: #adb5bd;
+        }
+
+        .navbar .menu-icon {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .navbar ul.mobile-menu {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #343a40;
+            width: 100%;
+            padding: 10px 0;
+        }
+
+        .navbar ul.mobile-menu li {
+            text-align: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #495057;
+        }
+
+        .main-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .intro {
+            margin-bottom: 30px;
+            max-width: 800px;
+            font-size: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .chart-container {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .buttons-container {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .buttons-container button {
+            flex: 1 1 45%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #343a40;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .buttons-container button:hover {
+            background: #495057;
+        }
+
+        /* Responsive for mobile (default styles) */
+        @media (max-width: 768px) {
+            .navbar ul {
+                display: none;
+            }
+
+            .navbar .menu-icon {
+                display: block;
+            }
+
+            .navbar ul.mobile-menu.show {
+                display: flex;
+            }
+
+            .intro {
+                font-size: 0.9rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .buttons-container button {
+                flex: 1 1 100%;
+            }
+        }
+
+        /* Larger screens (desktop styles) */
+        @media (min-width: 769px) {
+            .navbar .menu-icon {
+                display: none;
+            }
+
+            .navbar ul {
+                display: flex;
+            }
+
+            .main-content {
+                padding: 40px;
+            }
+
+            .intro {
+                font-size: 1.2rem;
+            }
+
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .chart-container {
+                max-width: 450px;
+                margin: 0 auto;
+            }
+
+            .buttons-container {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <h1>Agventure</h1>
+            <span class="menu-icon" onclick="toggleMenu()">☰</span>
+            <ul class="mobile-menu">
+                <li onclick="navigateTo('index.html')">Home</li>
+                <li onclick="navigateTo('profile.html')">Profile</li>
+                <li onclick="navigateTo('weather.html')">Weather</li>
+                <li onclick="navigateTo('Soil_moisture.html')">Soil Moisture</li>
+                <li onclick="navigateTo('log.html')">Sprinkler</li>
+            </ul>
+            <ul>
+                <li onclick="navigateTo('index.html')">Home</li>
+                <li onclick="navigateTo('profile.html')">Profile</li>
+                <li onclick="navigateTo('weather.html')">Weather</li>
+                <li onclick="navigateTo('Soil_moisture.html')">Soil Moisture</li>
+                <li onclick="navigateTo('log.html')">Sprinkler</li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="intro">
+                <h2>Welcome to Agventure</h2>
+                <p>
+                    Agriculture is the backbone of human civilization, involving the cultivation of soil, growing crops, and rearing animals 
+                    for food and other products. With advancements in technology, farming has become smarter, allowing farmers to optimize 
+                    resources like water, fertilizer, and land while ensuring sustainable practices.
+                </p>
+            </div>
+
+            <div class="grid">
+                <div class="chart-container">
+                    <h3>NPK Sensor</h3>
+                    <canvas id="npkChart" width="300" height="300"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>pH Level</h3>
+                    <canvas id="phChart" width="300" height="300"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Function to handle navigation
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+
+        // Function to toggle menu
+        function toggleMenu() {
+            const menu = document.querySelector('.mobile-menu');
+            menu.classList.toggle('show');
+        }
+
+        // Chart Data
+        const npkData = {
+            labels: ['Nitrogen', 'Phosphorus', 'Potassium'],
+            datasets: [{
+                label: 'NPK Percentage',
+                data: [30, 45, 25],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+            }]
+        };
+
+        const phData = {
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4'],
+            datasets: [{
+                label: 'pH Level',
+                data: [6.5, 7, 5.5, 6],
+                backgroundColor: '#36A2EB',
+                borderColor: '#007BFF',
+                borderWidth: 1,
+            }]
+        };
+
+        // Render Charts
+        new Chart(document.getElementById('npkChart'), { type: 'pie', data: npkData });
+        new Chart(document.getElementById('phChart'), { type: 'bar', data: phData });
+    </script>
+</body>
+</html>
