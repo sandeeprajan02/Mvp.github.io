@@ -193,16 +193,16 @@
             <ul class="mobile-menu">
                 <li onclick="navigateTo('index.html')">Home</li>
                 <li onclick="navigateTo('profile.html')">Profile</li>
-                <li onclick="navigateTo('weather.html')">Weather</li>
-                <li onclick="navigateTo('Soil_moisture.html')">Soil Moisture</li>
+                <!-- <li onclick="navigateTo('weather.html')">Weather</li>
+                <li onclick="navigateTo('Soil_moisture.html')">Soil Moisture</li> -->
                 <li onclick="navigateTo('log.html')">Sprinkler</li>
             </ul>
             <ul>
                 <li onclick="navigateTo('index.html')">Home</li>
                 <li onclick="navigateTo('profile.html')">Profile</li>
-                <li onclick="navigateTo('weather.html')">Weather</li>
-                <li onclick="navigateTo('Soil_moisture.html')">Soil Moisture</li>
-                <li onclick="navigateTo('log.html')">Sprinkler</li>
+                <!-- <li onclick="navigateTo('weather.html')">Weather</li>
+                <li onclick="navigateTo('Soil_moisture.html')">Soil Moisture</li> -->
+                <li onclick="navigateTo('log.html')">Log</li>
             </ul>
         </nav>
 
@@ -217,7 +217,7 @@
                 </p>
             </div>
 
-            <div class="grid">
+            <!-- <div class="grid">
                 <div class="chart-container">
                     <h3>NPK Sensor</h3>
                     <canvas id="npkChart" width="300" height="300"></canvas>
@@ -226,6 +226,12 @@
                     <h3>pH Level</h3>
                     <canvas id="phChart" width="300" height="300"></canvas>
                 </div>
+            </div> -->
+            <div class="buttons-container">
+                <button onclick="navigateTo('npk.html')">View NPK Levels</button>
+                <button onclick="navigateTo('Soil_moisture.html')">View Soil Moisture</button>
+                <button onclick="navigateTo('ph.html')">View pH Levels</button>
+                <button onclick="navigateTo('weather.html')">View Weather Updates</button>
             </div>
         </main>
     </div>
