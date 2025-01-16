@@ -175,7 +175,7 @@
                 });
 
                 // Check NPK values and show popups
-                if (nitrogen <= 50) {
+                if (nitrogen <= 40) {
                     showPopup('Nitrogen level is low! Do add the required fertilizers.');
                 }
                 if (phosphorus <= 25) {
@@ -189,7 +189,7 @@
             }
         }
 
-        setInterval(renderChart, 5000);
+        setInterval(renderChart, 10000);
         renderChart();
     </script>
 </body>
