@@ -3,52 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moisture Level Graph</title>
+    <title>Moisture Level Graph with Sprinkler Data</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            color: #343a40;
-            line-height: 1.6;
+            padding: 20px;
         }
-
-        .navbar {
-            background: #343a40;
-            color: #fff;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .navbar h1 {
-            font-size: 24px;
-        }
-
-        .navbar ul {
-            list-style: none;
-            display: flex;
-            margin: 0;
-        }
-
-        .navbar li {
-            margin-left: 20px;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .navbar li:hover {
-            color: #adb5bd;
-        }    
-       
         canvas {
             max-width: 100%;
             margin: 20px 0;
@@ -73,25 +35,51 @@
             background-color: #d1ecf1;
             color: #0c5460;
         }
+
+        /* Sprinkler log styles */
+        #sprinklerLog {
+            margin-top: 20px;
+        }
+
+        #sprinklerLog table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #sprinklerLog th, #sprinklerLog td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #sprinklerLog th {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Navbar -->
-        <nav class="navbar">
-            <h1>Soil Moisture</h1>
-            <ul>
-                <li onclick="navigateTo('index.html')">Home</li>
-                <li onclick="navigateTo('weather.html')">Weather</li>
-                <li onclick="navigateTo('log.html')">Sprinkler</li>
-            </ul>
-        </nav>
-
+    <h1>Soil Moisture</h1>
     <canvas id="moistureChart"></canvas>
 
     <!-- Alert element -->
     <div id="alert"></div>
+
+    <!-- Sprinkler log -->
+    <div id="sprinklerLog">
+        <h2>Sprinkler Log</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Moisture Level</th>
+                    <th>Sprinkler Action</th>
+                </tr>
+            </thead>
+            <tbody id="sprinklerLogBody">
+            </tbody>
+        </table>
     </div>
+
     <script>
         // Set up the initial data structure for Chart.js
         let chartData = {
@@ -141,12 +129,27 @@
         const MIN_MOISTURE = 30; // Minimum threshold (below which moisture is too low)
         const MAX_MOISTURE = 70; // Maximum threshold (above which moisture is too high)
 
+        // Array to store sprinkler logs
+        let sprinklerLogs = [];
+
         // Function to update the alert message
         function updateAlert(message, type) {
             const alertBox = document.getElementById('alert');
             alertBox.textContent = message;
             alertBox.className = type; // Apply the relevant class
             alertBox.style.display = 'block';
+        }
+
+        // Function to log sprinkler actions
+        function logSprinklerAction(timestamp, moisture, action) {
+            // Add sprinkler action to the log array
+            sprinklerLogs.push({ timestamp, moisture, action });
+
+            // Update the sprinkler log table
+            const logBody = document.getElementById('sprinklerLogBody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `<td>${timestamp}</td><td>${moisture}%</td><td>${action}</td>`;
+            logBody.appendChild(newRow);
         }
 
         // Function to fetch data from the API and update the chart
@@ -174,11 +177,13 @@
                         chartData.labels.push(timestamp);
                         chartData.datasets[0].data.push(moisture);
 
-                        // Update the alert based on moisture level
+                        // Update the alert and log sprinkler actions
                         if (moisture < MIN_MOISTURE) {
-                            updateAlert("Soil moisture is low! Please turn on the Sprinkler.", "low");
+                            updateAlert("Soil moisture is low! Sprinkler is turned ON.", "low");
+                            logSprinklerAction(timestamp, moisture, "Sprinkler ON");
                         } else if (moisture > MAX_MOISTURE) {
-                            updateAlert("Soil moisture is high! Please turn off the Sprinkler.", "high");
+                            updateAlert("Soil moisture is high! Sprinkler is turned OFF.", "high");
+                            logSprinklerAction(timestamp, moisture, "Sprinkler OFF");
                         } else {
                             document.getElementById('alert').style.display = 'none'; // Hide alert
                         }
@@ -210,12 +215,5 @@
         // Initial fetch and render
         fetchAndUpdateData();
     </script>
-        <script>
-            // Function to handle navigation
-            function navigateTo(page) {
-                window.location.href = page;
-            }
-</script>    
 </body>
 </html>
-
