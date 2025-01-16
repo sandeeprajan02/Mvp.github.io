@@ -57,6 +57,18 @@
             width: 400px;
             height: 400px;
         }
+
+        .popup {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #ffc107;
+            color: #343a40;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -66,13 +78,14 @@
             <h1>NPK Content</h1>
             <ul>
                 <li onclick="navigateTo('index.html')">Home</li>
-                <!-- <li onclick="navigateTo('weather.html')">Weather</li>
-                <li onclick="navigateTo('log.html')">Sprinkler</li> -->
             </ul>
         </nav>
     <div id="chart-container">
         <canvas id="npkChart"></canvas>
     </div>
+
+    <!-- Popup notifications -->
+    <div id="popup" class="popup"></div>
 
     <script>
         let currentIndex = 0;
@@ -83,7 +96,6 @@
                 const response = await fetch('https://4n5gbprs13.execute-api.us-east-1.amazonaws.com/npk/npk');
                 const jsonResponse = await response.json();
 
-                // Parse the response body (assuming it's stringified)
                 const data = JSON.parse(jsonResponse.body);
 
                 if (Array.isArray(data.data)) {
@@ -96,6 +108,15 @@
                 console.error('Error fetching NPK data:', error);
                 return [];
             }
+        }
+
+        function showPopup(message) {
+            const popup = document.getElementById('popup');
+            popup.textContent = message;
+            popup.style.display = 'block';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 5000);
         }
 
         async function renderChart() {
@@ -111,7 +132,6 @@
 
                 const ctx = document.getElementById('npkChart').getContext('2d');
 
-                // Destroy the chart instance if it already exists to avoid overlapping
                 if (window.myChart) {
                     window.myChart.destroy();
                 }
@@ -154,41 +174,23 @@
                     }
                 });
 
+                // Check NPK values and show popups
+                if (nitrogen <= 50) {
+                    showPopup('Nitrogen level is low! Do add the required fertilizers.');
+                }
+                if (phosphorus <= 25) {
+                    showPopup('Phosphorus level is low! Do add the required fertilizers.');
+                }
+                if (potassium <= 15) {
+                    showPopup('Potassium level is low! Do add the required fertilizers.');
+                }
+
                 currentIndex++;
             }
         }
 
-        // Update the chart every 5 seconds
         setInterval(renderChart, 5000);
-
-        // Initial chart render
         renderChart();
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
