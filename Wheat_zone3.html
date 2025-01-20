@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zone 1 - IoT Sensor Data Visualization</title>
+    <title>Zone 3 - IoT Sensor Data Visualization</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
@@ -108,6 +108,26 @@
         .zone-button:hover {
             background-color: #6ae34f;
         }
+
+        /* Alert Styles */
+        .alert {
+            padding: 10px;
+            margin-top: 20px;
+            font-weight: bold;
+            border-radius: 5px;
+            display: none;
+            text-align: center;
+        }
+
+        .alert-low {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .alert-high {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
     </style>
 </head>
 <body>
@@ -116,7 +136,7 @@
         <ul>
             <li onclick="navigateTo('index.html')">Home</li>
             <li onclick="navigateTo('weather.html')">Weather</li>
-            <li onclick="navigateTo('wheatlog3.html')">Log</li>
+            <li onclick="navigateTo('wheat_zone.html')">Log</li>
         </ul>
     </nav>
 
@@ -140,6 +160,8 @@
         <div class="chart-box">
             <h2>Soil Moisture</h2>
             <canvas id="soilMoistureChart"></canvas>
+            <!-- Soil Moisture Alert -->
+            <div id="soilMoistureAlert" class="alert"></div>
         </div>
 
         <div class="chart-box">
@@ -284,7 +306,23 @@
                 phChart.data.datasets[0].data.push(parseFloat(item.pH));
                 phChart.update();
 
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                // Check Soil Moisture conditions
+                const moistureValue = parseFloat(item.Soil_Moisture);
+                const alertBox = document.getElementById('soilMoistureAlert');
+
+                if (moistureValue < 40) {
+                    alertBox.className = 'alert alert-low';
+                    alertBox.innerHTML = 'Alert: Low soil moisture! Sprinkler is turned ON.';
+                    alertBox.style.display = 'block';
+                } else if (moistureValue > 70) {
+                    alertBox.className = 'alert alert-high';
+                    alertBox.innerHTML = 'Alert: High soil moisture! Sprinkler is turned OFF.';
+                    alertBox.style.display = 'block';
+                } else {
+                    alertBox.style.display = 'none';
+                }
+
+                await new Promise(resolve => setTimeout(resolve, 5000));
             }
         }
 
